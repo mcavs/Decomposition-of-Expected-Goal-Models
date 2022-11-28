@@ -1,2 +1,3 @@
-# Decomposition-of-Expected-Goal-Models
+# Decomposition of Expected Goal Models: Aggregated SHAP Values for Analyzing Scoring Potential of Player/Team
+
 This repository consists the supplemental materials of the paper "Decomposition of Expected Goal Models: Aggregated SHAP Values for Analyzing Scoring Potential of Player/Team".
