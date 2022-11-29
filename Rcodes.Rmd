@@ -1,6 +1,6 @@
 ---
 title: 'Reproducible codes of the paper: Decomposition of Expected Goal Models: Aggregated SHAP Values for Analyzing Scoring Potential of Player/Team'
-author: 'Adrian Stando and Mustafa Cavus'
+author: 'Adrian Stańdo and Mustafa Cavus'
 date: "November 25, 2022"
 output:
   pdf_document: default
@@ -540,6 +540,68 @@ b_21_22 <- predict_parts_shap_aggregated(explainer, df_b_21_22,
                                          B=15, order_variables = order_variables)
 plot(b_21_22, add_boxplots = FALSE, 
      subtitle = "bundesliga-all_teams-season2021", max_features = 10)
+```
+
+## SHAP Dependence Scatter Plots
+
+### distanceToGoal
+
+```{r eval = FALSE}
+column <- 'distanceToGoal'
+column_vals <- train_data[,column]
+B <- 15 # parameter from previous calculations
+
+shaps_raw <- b_21_22$raw
+shaps_raw <- shaps_raw[shaps_raw$variable_name == column, 'variable_name']
+
+shaps <- c()
+
+for i in 1:(as.integer(length(shaps_raw / B))){
+  shap_val <- mean(shaps_raw[(B*(i-1) + 1):(B*i)])
+  shaps <- c(shaps, shap_val)
+}
+
+vals <- data.frame(
+          c1 = shaps,
+          c2 = column_vals
+        )
+colnames(vals) <- c('SHAP', column)
+
+ggplot(vals, aes_string(x=column, y='SHAP')) + 
+  geom_point(col='#4c72b0') + 
+  theme_bw() +
+  ggtitle(paste0("SHAP Dependence Scatter Plot for ", column, " variable"))
+
+```
+
+### angleToGoal
+
+```{r eval = FALSE}
+column <- 'angleToGoal'
+column_vals <- train_data[,column]
+B <- 15 # parameter from previous calculations
+
+shaps_raw <- b_21_22$raw
+shaps_raw <- shaps_raw[shaps_raw$variable_name == column, 'variable_name']
+
+shaps <- c()
+
+for i in 1:(as.integer(length(shaps_raw / B))){
+  shap_val <- mean(shaps_raw[(B*(i-1) + 1):(B*i)])
+  shaps <- c(shaps, shap_val)
+}
+
+vals <- data.frame(
+          c1 = shaps,
+          c2 = column_vals
+        )
+colnames(vals) <- c('SHAP', column)
+
+ggplot(vals, aes_string(x=column, y='SHAP')) + 
+  geom_point(col='#4c72b0') + 
+  theme_bw() +
+  ggtitle(paste0("SHAP Dependence Scatter Plot for ", column, " variable"))
+
 ```
 
 
